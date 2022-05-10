@@ -175,18 +175,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Skia.WPF.Host\SkiaWpfHost.net6.vstemplate">
+    <VSTemplate Include="Skia.WPF.Host\SkiaWpfHost.winui.net6.vstemplate">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Skia.WPF\SkiaWpf.net6.vstemplate">
+    </VSTemplate>
+    <VSTemplate Include="Skia.WPF\SkiaWpf.winui.net6.vstemplate">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Skia.Gtk\SkiaGtk.net6.vstemplate">
+    </VSTemplate>
+    <VSTemplate Include="Skia.Gtk\SkiaGtk.winui.net6.vstemplate">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Skia.Linux.FrameBuffer\SkiaLinuxFrameBuffer.net6.vstemplate">
+    </VSTemplate>
+    <VSTemplate Include="Skia.Linux.FrameBuffer\SkiaLinuxFrameBuffer.winui.net6.vstemplate">
       <SubType>Designer</SubType>
-    </None>
+    </VSTemplate>
     <Content Include="Mobile\Android\AndroidManifest.xml" />
     <Content Include="Mobile\Android\Assets\AboutAssets.txt" />
     <Content Include="Mobile\Android\Resources\AboutResources.txt" />
@@ -215,7 +215,7 @@
     <Content Include="Mobile\iOS\Resources\Default-568h%402x.png" />
     <Content Include="Mobile\iOS\Resources\SplashScreen%402x.png" />
     <Content Include="Mobile\iOS\Resources\SplashScreen%403x.png" />
-    <None Include="Mobile\Mobile.net6.vstemplate" />
+    <VSTemplate Include="Mobile\Mobile.winui.net6.vstemplate" />
     <Content Include="Mobile\MacCatalyst\Media.xcassets\AppIcons.appiconset\Icon1024.png" />
     <Content Include="Mobile\MacCatalyst\Media.xcassets\AppIcons.appiconset\Icon120.png" />
     <Content Include="Mobile\MacCatalyst\Media.xcassets\AppIcons.appiconset\Icon152.png" />
@@ -243,10 +243,22 @@
     <None Include="Mobile\macOS\Assets.xcassets\AppIcon.appiconset\AppIcon-512.png" />
     <None Include="Mobile\macOS\Assets.xcassets\AppIcon.appiconset\AppIcon-512%402x.png" />
     <None Include="Mobile\macOS\Assets.xcassets\unologo.imageset\unoplatform.jpg" />
+    <Content Include="Mobile\__PreviewImage.png" />
+    <Content Include="Mobile\__TemplateIcon.png" />
+    <Content Include="Skia.Gtk\__PreviewImage.png" />
+    <Content Include="Skia.Gtk\__TemplateIcon.png" />
+    <Content Include="Skia.Linux.FrameBuffer\__PreviewImage.png" />
+    <Content Include="Skia.Linux.FrameBuffer\__TemplateIcon.png" />
+    <Content Include="Skia.WPF.Host\__PreviewImage.png" />
+    <Content Include="Skia.WPF.Host\__TemplateIcon.png" />
+    <Content Include="Skia.WPF\__PreviewImage.png" />
+    <Content Include="Skia.WPF\__TemplateIcon.png" />
     <Content Include="Wasm\Assets\SplashScreen.png" />
     <Content Include="Wasm\LinkerConfig.xml" />
     <Content Include="Wasm\WasmCSS\Fonts.css" />
     <Content Include="Wasm\WasmScripts\AppManifest.js" />
+    <Content Include="Wasm\__PreviewImage.png" />
+    <Content Include="Wasm\__TemplateIcon.png" />
     <Content Include="WinUI\Images\LockScreenLogo.scale-200.png" />
     <Content Include="WinUI\Images\SplashScreen.scale-200.png" />
     <Content Include="WinUI\Images\Square150x150Logo.scale-200.png" />
@@ -256,7 +268,7 @@
     <Content Include="WinUI\Images\Wide310x150Logo.scale-200.png" />
     <Content Include="__PreviewImage.png" />
     <Content Include="__TemplateIcon.png" />
-    <None Include="Wasm\Wasm.net6.vstemplate" />
+    <VSTemplate Include="Wasm\Wasm.winui.net6.vstemplate" />
     <Content Include="Wasm\UnoQuickStart.Wasm.csproj" />
   </ItemGroup>
   <ItemGroup>

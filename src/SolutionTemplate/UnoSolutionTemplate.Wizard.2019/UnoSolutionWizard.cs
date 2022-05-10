@@ -42,7 +42,7 @@ namespace UnoSolutionTemplate.Wizard
 
 			if (!File.Exists(vsConfigPath))
 			{
-				using var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream($"{GetType().Assembly.GetName().Name}..vsconfig.{_vsSuffix}"));
+				using var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.2019..vsconfig.{_vsSuffix}"));
 				File.WriteAllText(vsConfigPath, reader.ReadToEnd());
 			}
 
@@ -50,7 +50,7 @@ namespace UnoSolutionTemplate.Wizard
 
 			if (_enableNuGetConfig && !File.Exists(nugetConfigPath))
 			{
-				using var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.NuGet-netcore.config"));
+				using var reader = new StreamReader(GetType().Assembly.GetManifestResourceStream($"{GetType().Assembly.GetName().Name}.2019.NuGet-netcore.config"));
 				File.WriteAllText(nugetConfigPath, reader.ReadToEnd());
 			}
 

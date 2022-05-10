@@ -12,6 +12,7 @@
 	<EnableLocationBrowseButton>true</EnableLocationBrowseButton>
 	<LocationField>Enabled</LocationField>
 	<CreateInPlace>true</CreateInPlace>
+	  <Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent>
 	<Project File="UnoQuickStart.Skia.Wpf.Host.csproj" TargetFileName="$ext_safeprojectname$.Skia.Wpf.Host.csproj" ReplaceParameters="true">

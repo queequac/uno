@@ -40,7 +40,7 @@
 	</ProjectCollection>
   </TemplateContent>
   <WizardExtension>
-	<Assembly>UnoSolutionTemplate.Wizard.2022, Version=1.0.0.0, Culture=neutral, PublicKeyToken=edd9d20ca5dec34b</Assembly>
+	<Assembly>UnoSolutionTemplate.Wizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=edd9d20ca5dec34b</Assembly>
 	<FullClassName>UnoSolutionTemplate.Wizard.NetCoreUnoSolutionWizard</FullClassName>
   </WizardExtension>
 </VSTemplate>

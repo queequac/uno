@@ -12,9 +12,10 @@
     <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
     <LocationField>Enabled</LocationField>
     <CreateInPlace>true</CreateInPlace>
+	  <Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent>
-    <Project File="UnoQuickStart.Skia.Gtk.csproj" TargetFileName="$ext_safeprojectname$.Skia.Gtk.csproj" ReplaceParameters="true">
+    <Project File="UnoQuickStart.Skia.Linux.FrameBuffer.csproj" TargetFileName="$ext_safeprojectname$.Skia.Gtk.csproj" ReplaceParameters="true">
       <Folder Name="Assets" TargetFolderName="Assets">
         <Folder Name="Fonts" TargetFolderName="Fonts">
           <ProjectItem TargetFileName="uno-fluentui-assets.ttf" ReplaceParameters="false">uno-fluentui-assets.ttf</ProjectItem>

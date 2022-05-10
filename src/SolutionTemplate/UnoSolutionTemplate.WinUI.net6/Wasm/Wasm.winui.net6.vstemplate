@@ -15,6 +15,7 @@
 	<Icon>__TemplateIcon.png</Icon>
 	<PreviewImage>__PreviewImage.png</PreviewImage>
 	<CreateInPlace>true</CreateInPlace>
+	<Hidden>true</Hidden>
   </TemplateData>
   <TemplateContent>
 	<Project TargetFileName="$ext_safeprojectname$.Wasm.csproj" File="UnoQuickStart.Wasm.csproj" ReplaceParameters="true">

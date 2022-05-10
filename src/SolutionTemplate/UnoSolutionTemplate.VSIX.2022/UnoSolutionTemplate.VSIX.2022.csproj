@@ -86,15 +86,15 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\UnoSolutionTemplate.net6\UnoSolutionTemplate.net6.csproj">
-      <Project>{9ced7610-7819-4a41-b2c4-3724ebb4c81b}</Project>
-      <Name>UnoSolutionTemplate.net6</Name>
+    <ProjectReference Include="..\UnoSolutionTemplate.WinUI.net6\UnoSolutionTemplate.WinUI.net6.csproj">
+      <Project>{042F79A0-E0BB-4DED-8BC8-419700B9EE30}</Project>
+      <Name>UnoSolutionTemplate.WinUI.net6</Name>
       <VSIXSubPath>ProjectTemplates</VSIXSubPath>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
     <ProjectReference Include="..\UnoSolutionTemplate.Wizard.2022\UnoSolutionTemplate.Wizard.2022.csproj">
-      <Project>{d8dbbd63-8c85-46a8-9455-9b678c2f713f}</Project>
+      <Project>{138FF660-5EE6-475B-828C-81F96E9BE142}</Project>
       <Name>UnoSolutionTemplate.Wizard.2022</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
