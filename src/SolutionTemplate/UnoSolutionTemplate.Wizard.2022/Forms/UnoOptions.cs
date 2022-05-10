@@ -79,14 +79,17 @@ namespace UnoSolutionTemplate.Wizard.Forms
 
 		private void UnoOptions_Load(object sender, EventArgs e)
 		{
-			//int num = (int)(sizeF.Width / (float)descriptionTextBox.Width);
-			//if (num != 0)
-			//{
-			//	int num2 = (int)Math.Ceiling(sizeF.Height);
-			//	SuspendLayout();
-			//	descriptionTextBox.Height = num2 + num * num2;
-			//	ResumeLayout(performLayout: true);
-			//}
+			using Graphics graphics = CreateGraphics();
+			var sizeF = graphics.MeasureString(labelDescription.Text, Font);
+
+			int widthRatio = (int)(sizeF.Width / (float)labelDescription.Width);
+			if (widthRatio != 0)
+			{
+				int heightCeil = (int)Math.Ceiling(sizeF.Height);
+				SuspendLayout();
+				labelDescription.Height = heightCeil + widthRatio * heightCeil;
+				ResumeLayout(performLayout: true);
+			}
 
 			CenterToParent();
 		}
