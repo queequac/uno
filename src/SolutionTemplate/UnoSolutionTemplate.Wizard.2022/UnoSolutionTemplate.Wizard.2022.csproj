@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D8DBBD63-8C85-46A8-9455-9B678C2F713F}</ProjectGuid>
+    <ProjectGuid>{138FF660-5EE6-475B-828C-81F96E9BE142}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UnoSolutionTemplate.Wizard</RootNamespace>
     <AssemblyName>UnoSolutionTemplate.Wizard</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -58,15 +58,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamarinUnoSolutionWizard.cs" />
   </ItemGroup>
-	<ItemGroup>
-		<None Include="key.snk" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Include=".vsconfig.vs16" />
-		<EmbeddedResource Include=".vsconfig.vs17" />
-		<EmbeddedResource Include="NuGet-netcore.config" />
-	</ItemGroup>
-	<ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".vsconfig.vs16" />
+    <EmbeddedResource Include=".vsconfig.vs17" />
+    <EmbeddedResource Include="NuGet-netcore.config" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.Build">
       <Version>15.8.166</Version>
     </PackageReference>

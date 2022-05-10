@@ -93,9 +93,9 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
-    <ProjectReference Include="..\UnoSolutionTemplate.Wizard\UnoSolutionTemplate.Wizard.csproj">
+    <ProjectReference Include="..\UnoSolutionTemplate.Wizard.2022\UnoSolutionTemplate.Wizard.2022.csproj">
       <Project>{d8dbbd63-8c85-46a8-9455-9b678c2f713f}</Project>
-      <Name>UnoSolutionTemplate.Wizard</Name>
+      <Name>UnoSolutionTemplate.Wizard.2022</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
