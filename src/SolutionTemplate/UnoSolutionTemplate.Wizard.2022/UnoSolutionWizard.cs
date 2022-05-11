@@ -201,6 +201,7 @@ namespace UnoSolutionTemplate.Wizard
 			SetStartupProject();
 			SetUWPAnyCPUBuildableAndDeployable();
 			SetDefaultConfiguration();
+			SetWasmDebugger();
 		}
 
 		public void RunStarted(object automationObject, Dictionary<string, string> replacementsDictionary, WizardRunKind runKind, object[] customParams)
@@ -367,6 +368,11 @@ namespace UnoSolutionTemplate.Wizard
 			catch (Exception)
 			{
 			}
+		}
+
+		private void SetWasmDebugger()
+		{
+
 		}
 
 		private Project[] GetSolutionFolderProjects(Project solutionFolder)

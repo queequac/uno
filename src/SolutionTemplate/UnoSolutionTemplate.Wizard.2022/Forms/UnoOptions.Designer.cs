@@ -69,9 +69,9 @@
             this.checkMobile.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkMobile.Location = new System.Drawing.Point(3, 30);
             this.checkMobile.Name = "checkMobile";
-            this.checkMobile.Size = new System.Drawing.Size(255, 21);
+            this.checkMobile.Size = new System.Drawing.Size(258, 21);
             this.checkMobile.TabIndex = 1;
-            this.checkMobile.Text = "Mobile (iOS, Android, macOS and Mac Catalyst";
+            this.checkMobile.Text = "Mobile (iOS, Android, macOS and Mac Catalyst)";
             this.checkMobile.UseVisualStyleBackColor = true;
             // 
             // checkGtk
@@ -116,7 +116,7 @@
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(71, 23);
             this.buttonOK.TabIndex = 0;
-            this.buttonOK.Text = "OK";
+            this.buttonOK.Text = "Create";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
             // buttonCancel

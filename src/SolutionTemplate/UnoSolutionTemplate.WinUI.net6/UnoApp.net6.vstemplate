@@ -31,7 +31,6 @@
 		<ProjectCollection>
 			<ProjectTemplateLink ProjectName="$projectname$.Shared" CopyParameters="true">Shared\Shared.net6.vstemplate</ProjectTemplateLink>
 			<SolutionFolder Name="Platforms">
-				<ProjectTemplateLink ProjectName="$projectname$.Windows" CopyParameters="true">WinUI\WinUI.net6.vstemplate</ProjectTemplateLink>
 			</SolutionFolder>
 		</ProjectCollection>
 	</TemplateContent>
