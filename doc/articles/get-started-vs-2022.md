@@ -3,14 +3,14 @@
 > This section is covering releases of .NET 6 and Visual Studio 2022. It is a work in progress.
 
 ## Prerequisites
-1. To create Uno Platform applications you will need [**Visual Studio 2022 17.2 (Preview)**](https://visualstudio.microsoft.com/vs/preview/):
+1. To create Uno Platform applications you will need [**Visual Studio 2022 17.3 (Preview)**](https://visualstudio.microsoft.com/vs/preview/):
 1. **Universal Windows Platform** workload installed.
 
     ![visual-studio-installer-uwp](Assets/quick-start/vs-install-uwp.png)
 
-1. **Mobile development with .NET** workload installed.
+1. **.NET Multi-platform App UI development** workload installed.
 
-    ![visual-studio-installer-xamarin](Assets/quick-start/vs-install-xamarin.png)
+    ![visual-studio-installer-dotnet-mobile](Assets/quick-start/vs-install-dotnet-mobile.png)
 
 1. **.NET desktop development** workload installed.
 
@@ -46,21 +46,28 @@ Follow the steps indicated by the tool.
 
 ## Create an application
 
-> .NET 6 Mobile support is currently in Preview, following Microsoft's support status. As of Uno 4.3, .NET 6 Mobile RC 3 and above is supported with [Visual Studio 2022 17.2 Preview 6](https://visualstudio.microsoft.com/vs/preview). Previous releases of Visual Studio are not supported.
+> .NET 6 Mobile support is currently in Preview, following Microsoft's support status. As of Uno 4.3, .NET 6 Mobile RC 3 and above is supported with [Visual Studio 2022 17.3 Preview 1](https://visualstudio.microsoft.com/vs/preview). Previous releases of Visual Studio are not supported.
 
 ### Prerequisite
 To create an Uno Platform app:
-* Create a new C# solution using the **Uno Platform App** template, from Visual Studio's **Start Page**
-* To debug the iOS:
+1. Create a new C# solution using the **Uno Platform App (Preview)** template, from Visual Studio's **Start Page**
+1. Choose the list of targets platforms you want to be generated
+   
+    ![visual-studio-installer-web](Assets/quick-start/vsix-new-project-options.png)
+
+1. Wait for the projects to be created, and their dependencies to be restored
+
+1. To run for iOS:
+    - Set the `MyApp.Mobile` as startup project
     - In the "Debug toolbar" drop down, select framework `net6.0-ios`
     - Select an active device
-* To debug the Android platform:
+1. To debug the Android platform:
     - In the "Debug toolbar" drop down, select framework `net6.0-android`
     - Select an active device in "Device" sub-menu
-* To debug the UWP head:
+1. To debug the Windows head:
     - Select the `Debug|x86` configuration
     - Debug the project
-* To run the WebAssembly (Wasm) head:
+1. To run the WebAssembly (Wasm) head:
    - Select **IIS Express** and press **Ctrl+F5** or choose 'Start without debugging' from the menu.
 
 > Debugging either the macOS and macCatalyst targets is not supported from Visual Studio on Windows.
