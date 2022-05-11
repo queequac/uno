@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 using System.Xml.Linq;
 using EnvDTE;
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.TemplateWizard;
 using Microsoft.VisualStudio.Utilities;
 using UnoSolutionTemplate.Wizard.Forms;
@@ -22,15 +22,15 @@ namespace UnoSolutionTemplate.Wizard
 		private readonly bool _enableNuGetConfig;
 		private readonly string _vsSuffix;
 		private string? _targetPath;
-		private string _projectName;
+		private string? _projectName;
 		private DTE2? _dte;
 		private IServiceProvider? _visualStudioServiceProvider;
-		private WizardData wizardData;
-		private string _useWebAssembly;
-		private string _useMobile;
-		private string _useGtk;
-		private string _useFramebuffer;
-		private string _useWpf;
+		private bool _useWebAssembly;
+		private bool _useMobile;
+		private bool _useGtk;
+		private bool _useFramebuffer;
+		private bool _useWpf;
+		private bool _useWinUI;
 
 		public UnoSolutionWizard(bool enableNuGetConfig, string vsSuffix)
 		{
@@ -42,6 +42,8 @@ namespace UnoSolutionTemplate.Wizard
 		{
 			get
 			{
+				ThreadHelper.ThrowIfNotOnUIThread();
+
 				if (_visualStudioServiceProvider == null)
 				{
 					_visualStudioServiceProvider = _dte as IServiceProvider;
@@ -69,37 +71,35 @@ namespace UnoSolutionTemplate.Wizard
 
 				if (platforms.Object is SolutionFolder platformsFolder)
 				{
-					if (_useWebAssembly == true.ToString())
+					if (_useWebAssembly)
 					{
-						var projectName = $"{_projectName}.Wasm";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("Wasm.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, projectName), projectName);
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Wasm", "Wasm.winui.net6.vstemplate");
 					}
 
-					if (_useMobile == true.ToString())
+					if (_useMobile)
 					{
-						var projectName = $"{_projectName}.Mobile";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("Mobile.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, projectName), projectName);
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Mobile", "Mobile.winui.net6.vstemplate");
 					}
 
-					if (_useGtk == true.ToString())
+					if (_useGtk)
 					{
-						var projectName = $"{_projectName}.Skia.Gtk";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("SkiaGtk.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, projectName), projectName);
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Skia.Gtk", "SkiaGtk.winui.net6.vstemplate");
 					}
 
-					if (_useFramebuffer == true.ToString())
+					if (_useFramebuffer)
 					{
-						var projectName = $"{_projectName}.Skia.Linux.FrameBuffer";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("SkiaLinuxFrameBuffer.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, projectName), projectName);
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Skia.Linux.FrameBuffer", "SkiaLinuxFrameBuffer.winui.net6.vstemplate");
 					}
 
-					if (_useWpf == true.ToString())
+					if (_useWinUI)
 					{
-						var projectName = $"{_projectName}.Skia.Wpf";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("SkiaWpf.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, projectName), projectName);
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Windows", "WinUI.net6.vstemplate");
+					}
 
-						var hostProjectName = $"{_projectName}.Skia.Wpf.Host";
-						platformsFolder.AddFromTemplate(solution.GetProjectTemplate("SkiaWpfHost.winui.net6.vstemplate", "CSharp"), Path.Combine(_targetPath, hostProjectName), hostProjectName);
+					if (_useWpf)
+					{
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Skia.Wpf", "SkiaWpf.winui.net6.vstemplate");
+						GenerateProject(solution, platformsFolder, $"{_projectName}.Skia.Wpf.Host", "SkiaWpfHost.winui.net6.vstemplate");
 					}
 				}
 				else
@@ -107,6 +107,72 @@ namespace UnoSolutionTemplate.Wizard
 					throw new InvalidOperationException("Unable to find the Platforms solution folder");
 				}
 			}
+		}
+
+		private void GenerateProject(Solution2 solution, SolutionFolder platformsFolder, string projectFullName, string templateName)
+		{
+			if (_projectName != null)
+			{
+				var targetPath = Path.Combine(_targetPath, projectFullName);
+
+				// Duplicate the template to add custom parameters
+				var workTemplateFilePath = DuplicateTemplate(solution, templateName);
+				AdjustCustomParameters(workTemplateFilePath, _projectName);
+
+				platformsFolder.AddFromTemplate(workTemplateFilePath, targetPath, projectFullName);
+			}
+			else
+			{
+				throw new InvalidOperationException("Project name is not set");
+			}
+		}
+
+		private void AdjustCustomParameters(string templateFilePath, string projectName)
+		{
+			const string defaultNS = "http://schemas.microsoft.com/developer/vstemplate/2005";
+
+			var doc = new XmlDocument();
+			doc.LoadXml(File.ReadAllText(templateFilePath));
+			var nsManager = new XmlNamespaceManager(doc.NameTable);
+			nsManager.AddNamespace("d", defaultNS);
+
+			var customParametersNode = doc.SelectSingleNode("//d:CustomParameters", nsManager);
+			if(customParametersNode == null)
+			{
+				var templateContent = doc.SelectSingleNode("//d:TemplateContent", nsManager);
+				customParametersNode = doc.CreateElement("CustomParameters", defaultNS);
+				templateContent.AppendChild(customParametersNode);
+			}
+
+
+			var safeProjectNameNode = doc.CreateElement("CustomParameter", defaultNS);
+			safeProjectNameNode.SetAttribute("Name", "$safeprojectname$");
+			safeProjectNameNode.SetAttribute("Value", projectName);
+			customParametersNode.AppendChild(safeProjectNameNode);
+
+			var extSafeProjectNameNode = doc.CreateElement("CustomParameter", defaultNS);
+			extSafeProjectNameNode.SetAttribute("Name", "$ext_safeprojectname$");
+			extSafeProjectNameNode.SetAttribute("Value", projectName);
+			customParametersNode.AppendChild(extSafeProjectNameNode);
+
+			doc.Save(templateFilePath);
+		}
+
+		private static string DuplicateTemplate(Solution2 solution, string TemplateName)
+		{
+			var templateFilePath = solution.GetProjectTemplate(TemplateName, "CSharp");
+			var templatePath = Path.GetDirectoryName(templateFilePath);
+			var workTemplatePath = Path.Combine(Path.GetTempPath(), $"uno-template-" + Guid.NewGuid().ToString());
+
+			foreach (var file in Directory.GetFiles(templatePath, "*.*", SearchOption.AllDirectories))
+			{
+				var targetFilePath = file.Replace(templatePath, workTemplatePath);
+
+				Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
+				File.Copy(file, targetFilePath);
+			}
+
+			return Path.Combine(workTemplatePath, Path.GetFileName(templateFilePath));
 		}
 
 		public void ProjectItemFinishedGenerating(ProjectItem projectItem)
@@ -147,24 +213,27 @@ namespace UnoSolutionTemplate.Wizard
 				_dte = (DTE2)automationObject;
 			}
 
-			if (replacementsDictionary.TryGetValue("$wizarddata$", out var value) && !string.IsNullOrWhiteSpace(value))
-			{
-				wizardData = new WizardData("<WizardData>" + value + "</WizardData>");
-			}
-
 			using (DpiAwareness.EnterDpiScope(DpiAwarenessContext.SystemAware))
 			{
 				using DialogParentWindow owner = new DialogParentWindow(IntPtr.Zero, enableModeless: true, VisualStudioServiceProvider);
-				using UnoOptions targetPlatformWizardPicker = new UnoOptions(VisualStudioServiceProvider, wizardData);
+				using UnoOptions targetPlatformWizardPicker = new UnoOptions(VisualStudioServiceProvider);
 
 				switch (targetPlatformWizardPicker.ShowDialog(owner))
 				{
 					case DialogResult.OK:
-						replacementsDictionary["$UseWebAssembly$"] = _useWebAssembly = targetPlatformWizardPicker.UseWebAssembly;
-						replacementsDictionary["$UseMobile$"] = _useMobile = targetPlatformWizardPicker.UseMobile;
-						replacementsDictionary["$UseGtk$"] = _useGtk = targetPlatformWizardPicker.UseGtk;
-						replacementsDictionary["$UseFrameBuffer$"] = _useFramebuffer = targetPlatformWizardPicker.UseFramebuffer;
-						replacementsDictionary["$UseWpf$"] = _useWpf = targetPlatformWizardPicker.UseWpf;
+						_useWebAssembly = targetPlatformWizardPicker.UseWebAssembly;
+						_useMobile = targetPlatformWizardPicker.UseMobile;
+						_useGtk = targetPlatformWizardPicker.UseGtk;
+						_useFramebuffer = targetPlatformWizardPicker.UseFramebuffer;
+						_useWpf = targetPlatformWizardPicker.UseWpf;
+						_useWinUI = targetPlatformWizardPicker.UseWinUI;
+
+						replacementsDictionary["$UseWebAssembly$"] = _useWebAssembly.ToString();
+						replacementsDictionary["$UseMobile$"] = _useMobile.ToString();
+						replacementsDictionary["$UseGtk$"] = _useGtk.ToString();
+						replacementsDictionary["$UseFrameBuffer$"] = _useFramebuffer.ToString();
+						replacementsDictionary["$UseWPF$"] = _useWpf.ToString();
+						replacementsDictionary["$UseWinUI$"] = _useWinUI.ToString();
 						break;
 
 					case DialogResult.Abort:
@@ -181,6 +250,8 @@ namespace UnoSolutionTemplate.Wizard
 
 		public Project[] GetAllProjects()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			var list = new List<Project>();
 			if (_dte != null)
 			{
@@ -213,6 +284,8 @@ namespace UnoSolutionTemplate.Wizard
 
 		private void SetStartupProject()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			try
 			{
 				if (_dte?.Solution.SolutionBuild is SolutionBuild2 val)
@@ -243,6 +316,8 @@ namespace UnoSolutionTemplate.Wizard
 
 		private void SetUWPAnyCPUBuildableAndDeployable()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			if (_dte?.Solution.SolutionBuild is SolutionBuild2 val)
 			{
 				try
@@ -271,6 +346,8 @@ namespace UnoSolutionTemplate.Wizard
 
 		private void SetDefaultConfiguration()
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			try
 			{
 				if (_dte?.Solution.SolutionBuild is SolutionBuild2 val)
@@ -294,6 +371,8 @@ namespace UnoSolutionTemplate.Wizard
 
 		private Project[] GetSolutionFolderProjects(Project solutionFolder)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			var list = new List<Project>();
 			for (var i = 1; i <= solutionFolder.ProjectItems.Count; i++)
 			{
@@ -317,177 +396,4 @@ namespace UnoSolutionTemplate.Wizard
 			return list.ToArray();
 		}
 	}
-
-
-	internal class DialogParentWindow : IWin32Window, IDisposable
-	{
-		private readonly IntPtr handle;
-
-		private bool enableModeless;
-
-		private readonly IServiceProvider serviceProvider;
-
-		public IntPtr Handle => handle;
-
-		public DialogParentWindow(IntPtr handle, bool enableModeless, IServiceProvider serviceProvider)
-		{
-			this.serviceProvider = serviceProvider;
-			object service = this.serviceProvider.GetService(typeof(IVsUIShell));
-			IVsUIShell val = (IVsUIShell)((service is IVsUIShell) ? service : null);
-			if (this.handle == IntPtr.Zero)
-			{
-				val.GetDialogOwnerHwnd(out this.handle);
-			}
-			else
-			{
-				this.handle = handle;
-			}
-			if (enableModeless)
-			{
-				val.EnableModeless(0);
-				this.enableModeless = true;
-			}
-		}
-
-		public void Dispose()
-		{
-			if (enableModeless)
-			{
-				enableModeless = false;
-				try
-				{
-					object service = serviceProvider.GetService(typeof(IVsUIShell));
-					IVsUIShell val = (IVsUIShell)((service is IVsUIShell) ? service : null);
-					val.EnableModeless(1);
-				}
-				catch
-				{
-				}
-			}
-		}
-	}
-
-	public class WizardData
-	{
-		private const string USE_PACKAGE_REFERENCES = "UsePackageReferences";
-
-		private const string MINIMUM_SUPPORTED_VERSION = "MinSupportedVersion";
-
-		private const string SKIP_XAML_COMPILER_CHECK = "SkipXamlCompilerCheck";
-
-		private const string USE_SDK_FALLBACK_FILE = "UseSdkFallbackFile";
-
-		private const string DEFAULT_MIN_SUPPORTED_VERSION = "DefaultMinSupportedVersion";
-
-		private const string USE_WINDOWS_SDK_BUILD_TOOLS_PACKAGE = "UseWindowsSdkBuildToolsPackage";
-
-		public bool UsePackageReferences { get; set; }
-
-		public string MinSupportedVersion { get; set; }
-
-		public bool SkipXamlCompilerCheck { get; set; }
-
-		public bool UseSdkFallbackFile { get; set; }
-
-		public bool UseWindowsSdkBuildToolsPackage { get; set; }
-
-		//public DefaultMinSupportedVersion DefaultMinSupportedVersion { get; set; }
-
-		public WizardData(string xmlStringToParse)
-		{
-			if (string.IsNullOrWhiteSpace(xmlStringToParse))
-			{
-				return;
-			}
-			try
-			{
-				XDocument xDocument = XDocument.Parse(xmlStringToParse);
-				foreach (XElement item in from p in xDocument.Descendants()
-										  where !p.HasElements
-										  select p)
-				{
-					switch (item.Name?.LocalName)
-					{
-						case "UsePackageReferences":
-							{
-								if (bool.TryParse(item.Value, out var result4))
-								{
-									UsePackageReferences = result4;
-								}
-								break;
-							}
-						case "MinSupportedVersion":
-							MinSupportedVersion = item.Value;
-							break;
-						case "SkipXamlCompilerCheck":
-							{
-								if (bool.TryParse(item.Value, out var result2))
-								{
-									SkipXamlCompilerCheck = result2;
-								}
-								break;
-							}
-						case "UseSdkFallbackFile":
-							{
-								if (bool.TryParse(item.Value, out var result5))
-								{
-									UseSdkFallbackFile = result5;
-								}
-								break;
-							}
-						case "DefaultMinSupportedVersion":
-							{
-								//if (Enum.TryParse<DefaultMinSupportedVersion>(item.Value, out var result3))
-								//{
-								//	DefaultMinSupportedVersion = result3;
-								//}
-								break;
-							}
-						case "UseWindowsSdkBuildToolsPackage":
-							{
-								if (bool.TryParse(item.Value, out var result))
-								{
-									UseWindowsSdkBuildToolsPackage = result;
-								}
-								break;
-							}
-					}
-				}
-			}
-			catch (Exception)
-			{
-			}
-		}
-
-		public bool HasMinimumProjectVersion()
-		{
-			return !string.IsNullOrWhiteSpace(MinSupportedVersion);
-		}
-
-		//internal bool VersionIsGreaterThanOrEqualToMinVersion(PlatformName p)
-		//{
-		//	return VersionIsGreaterThanOrEqualToMinVersion(p.Version);
-		//}
-
-		internal bool VersionIsGreaterThanOrEqualToMinVersion(Version versionToTest)
-		{
-			if (HasMinimumProjectVersion())
-			{
-				Version minProjectAsVersion = GetMinProjectAsVersion();
-				if (!(minProjectAsVersion == null))
-				{
-					return minProjectAsVersion <= versionToTest;
-				}
-				return true;
-			}
-			return true;
-		}
-
-		private Version GetMinProjectAsVersion()
-		{
-			Version.TryParse(MinSupportedVersion, out var result);
-			return result;
-		}
-	}
-
 }

@@ -14,6 +14,7 @@
 		<CreateInPlace>true</CreateInPlace>
 		<Hidden>true</Hidden>
 	</TemplateData>
+
 	<TemplateContent>
 		<Project File="UnoQuickStart.Windows.csproj" TargetFileName="$ext_safeprojectname$.Windows.csproj" ReplaceParameters="true">
 			<Folder Name="Images" TargetFolderName="Images">

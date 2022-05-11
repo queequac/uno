@@ -144,9 +144,9 @@
       <OutputSubPath>Uno Platform</OutputSubPath>
     </VSTemplate>
     <None Include="Shared\Shared.net6.vstemplate" />
-    <None Include="WinUI\WinUI.net6.vstemplate">
+    <VSTemplate Include="WinUI\WinUI.net6.vstemplate">
       <SubType>Designer</SubType>
-    </None>
+    </VSTemplate>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shared\UnoQuickStart.Shared.projitems" />
@@ -266,6 +266,8 @@
     <Content Include="WinUI\Images\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="WinUI\Images\StoreLogo.png" />
     <Content Include="WinUI\Images\Wide310x150Logo.scale-200.png" />
+    <Content Include="WinUI\__PreviewImage.png" />
+    <Content Include="WinUI\__TemplateIcon.png" />
     <Content Include="__PreviewImage.png" />
     <Content Include="__TemplateIcon.png" />
     <VSTemplate Include="Wasm\Wasm.winui.net6.vstemplate" />

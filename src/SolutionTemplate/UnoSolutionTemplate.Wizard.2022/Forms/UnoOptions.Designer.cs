@@ -37,6 +37,7 @@
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.checkWinUI = new System.Windows.Forms.CheckBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,7 +79,7 @@
             this.checkGtk.AutoSize = true;
             this.checkGtk.Checked = true;
             this.checkGtk.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkGtk.Location = new System.Drawing.Point(3, 57);
+            this.checkGtk.Location = new System.Drawing.Point(3, 84);
             this.checkGtk.Name = "checkGtk";
             this.checkGtk.Size = new System.Drawing.Size(219, 21);
             this.checkGtk.TabIndex = 1;
@@ -89,7 +90,7 @@
             // checkLinux
             // 
             this.checkLinux.AutoSize = true;
-            this.checkLinux.Location = new System.Drawing.Point(3, 84);
+            this.checkLinux.Location = new System.Drawing.Point(3, 111);
             this.checkLinux.Name = "checkLinux";
             this.checkLinux.Size = new System.Drawing.Size(117, 21);
             this.checkLinux.TabIndex = 1;
@@ -99,7 +100,7 @@
             // checkWpf
             // 
             this.checkWpf.AutoSize = true;
-            this.checkWpf.Location = new System.Drawing.Point(3, 111);
+            this.checkWpf.Location = new System.Drawing.Point(3, 138);
             this.checkWpf.Name = "checkWpf";
             this.checkWpf.Size = new System.Drawing.Size(154, 21);
             this.checkWpf.TabIndex = 1;
@@ -111,10 +112,10 @@
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOK.Location = new System.Drawing.Point(218, 178);
+            this.buttonOK.Location = new System.Drawing.Point(218, 214);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(71, 23);
-            this.buttonOK.TabIndex = 2;
+            this.buttonOK.TabIndex = 0;
             this.buttonOK.Text = "OK";
             this.buttonOK.UseVisualStyleBackColor = true;
             // 
@@ -123,7 +124,7 @@
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCancel.Location = new System.Drawing.Point(295, 178);
+            this.buttonCancel.Location = new System.Drawing.Point(295, 214);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(71, 23);
             this.buttonCancel.TabIndex = 2;
@@ -132,16 +133,32 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.Controls.Add(this.checkWebAssembly);
             this.flowLayoutPanel1.Controls.Add(this.checkMobile);
+            this.flowLayoutPanel1.Controls.Add(this.checkWinUI);
             this.flowLayoutPanel1.Controls.Add(this.checkGtk);
             this.flowLayoutPanel1.Controls.Add(this.checkLinux);
             this.flowLayoutPanel1.Controls.Add(this.checkWpf);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 25);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(440, 146);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(354, 182);
             this.flowLayoutPanel1.TabIndex = 3;
+            // 
+            // checkWinUI
+            // 
+            this.checkWinUI.AutoSize = true;
+            this.checkWinUI.Checked = true;
+            this.checkWinUI.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkWinUI.Location = new System.Drawing.Point(3, 57);
+            this.checkWinUI.Name = "checkWinUI";
+            this.checkWinUI.Size = new System.Drawing.Size(177, 21);
+            this.checkWinUI.TabIndex = 2;
+            this.checkWinUI.Text = "Windows (Windows App SDK)";
+            this.checkWinUI.UseVisualStyleBackColor = true;
             // 
             // UnoOptions
             // 
@@ -151,7 +168,7 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(378, 213);
+            this.ClientSize = new System.Drawing.Size(378, 249);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
@@ -184,5 +201,6 @@
 		private System.Windows.Forms.Button buttonOK;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+		private System.Windows.Forms.CheckBox checkWinUI;
 	}
 }

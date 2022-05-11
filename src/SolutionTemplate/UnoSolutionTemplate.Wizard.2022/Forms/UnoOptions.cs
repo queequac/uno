@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 namespace UnoSolutionTemplate.Wizard.Forms
@@ -14,20 +15,21 @@ namespace UnoSolutionTemplate.Wizard.Forms
 	public partial class UnoOptions : Form
 	{
 		private IServiceProvider _serviceProvider;
-		private WizardData _wizardData;
 
-		public string UseWebAssembly => checkWebAssembly.Checked.ToString();
-		public string UseMobile => checkMobile.Checked.ToString();
-		public string UseGtk => checkGtk.Checked.ToString();
-		public string UseFramebuffer => checkLinux.Checked.ToString();
-		public string UseWpf => checkWpf.Checked.ToString();
+		public bool UseWebAssembly => checkWebAssembly.Checked;
+		public bool UseMobile => checkMobile.Checked;
+		public bool UseGtk => checkGtk.Checked;
+		public bool UseFramebuffer => checkLinux.Checked;
+		public bool UseWpf => checkWpf.Checked;
+		public bool UseWinUI => checkWinUI.Checked;
 
-		public UnoOptions(IServiceProvider serviceProvider, WizardData wizardData)
+		public UnoOptions(IServiceProvider serviceProvider)
 		{
+			ThreadHelper.ThrowIfNotOnUIThread();
+
 			InitializeComponent();
 
 			_serviceProvider = serviceProvider;
-			_wizardData = wizardData;
 
 			if (_serviceProvider.GetService(typeof(IUIHostLocale)) is IUIHostLocale2 hostLocale)
 			{
