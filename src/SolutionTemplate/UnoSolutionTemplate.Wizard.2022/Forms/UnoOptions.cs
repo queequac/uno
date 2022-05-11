@@ -17,7 +17,10 @@ namespace UnoSolutionTemplate.Wizard.Forms
 		private IServiceProvider _serviceProvider;
 
 		public bool UseWebAssembly => checkWebAssembly.Checked;
-		public bool UseMobile => checkMobile.Checked;
+		public bool UseiOS => checkiOS.Checked;
+		public bool UseAndroid => checkAndroid.Checked;
+		public bool UseCatalyst => checkCatalyst.Checked;
+		public bool UseAppKit => checkAppKit.Checked;
 		public bool UseGtk => checkGtk.Checked;
 		public bool UseFramebuffer => checkLinux.Checked;
 		public bool UseWpf => checkWpf.Checked;
@@ -97,6 +100,16 @@ namespace UnoSolutionTemplate.Wizard.Forms
 		}
 
 		private void checkBox3_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void groupBox2_Enter(object sender, EventArgs e)
+		{
+
+		}
+
+		private void checkWinUI_CheckedChanged(object sender, EventArgs e)
 		{
 
 		}

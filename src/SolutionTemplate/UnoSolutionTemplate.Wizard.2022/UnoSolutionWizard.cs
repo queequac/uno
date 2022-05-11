@@ -26,11 +26,15 @@ namespace UnoSolutionTemplate.Wizard
 		private DTE2? _dte;
 		private IServiceProvider? _visualStudioServiceProvider;
 		private bool _useWebAssembly;
-		private bool _useMobile;
+		private bool _useiOS;
+		private bool _useAndroid;
+		private bool _useCatalyst;
+		private bool _useAppKit;
 		private bool _useGtk;
 		private bool _useFramebuffer;
 		private bool _useWpf;
 		private bool _useWinUI;
+		private IDictionary<string, string>? _replacementDictionary;
 
 		public UnoSolutionWizard(bool enableNuGetConfig, string vsSuffix)
 		{
@@ -76,7 +80,7 @@ namespace UnoSolutionTemplate.Wizard
 						GenerateProject(solution, platformsFolder, $"{_projectName}.Wasm", "Wasm.winui.net6.vstemplate");
 					}
 
-					if (_useMobile)
+					if (_useiOS || _useCatalyst || _useAndroid || _useAppKit)
 					{
 						GenerateProject(solution, platformsFolder, $"{_projectName}.Mobile", "Mobile.winui.net6.vstemplate");
 					}
@@ -144,16 +148,16 @@ namespace UnoSolutionTemplate.Wizard
 				templateContent.AppendChild(customParametersNode);
 			}
 
-
-			var safeProjectNameNode = doc.CreateElement("CustomParameter", defaultNS);
-			safeProjectNameNode.SetAttribute("Name", "$safeprojectname$");
-			safeProjectNameNode.SetAttribute("Value", projectName);
-			customParametersNode.AppendChild(safeProjectNameNode);
-
-			var extSafeProjectNameNode = doc.CreateElement("CustomParameter", defaultNS);
-			extSafeProjectNameNode.SetAttribute("Name", "$ext_safeprojectname$");
-			extSafeProjectNameNode.SetAttribute("Value", projectName);
-			customParametersNode.AppendChild(extSafeProjectNameNode);
+			if (_replacementDictionary != null)
+			{
+				foreach (var replacement in _replacementDictionary)
+				{
+					var safeProjectNameNode = doc.CreateElement("CustomParameter", defaultNS);
+					safeProjectNameNode.SetAttribute("Name", replacement.Key);
+					safeProjectNameNode.SetAttribute("Value", replacement.Value);
+					customParametersNode.AppendChild(safeProjectNameNode);
+				}
+			}
 
 			doc.Save(templateFilePath);
 		}
@@ -223,18 +227,26 @@ namespace UnoSolutionTemplate.Wizard
 				{
 					case DialogResult.OK:
 						_useWebAssembly = targetPlatformWizardPicker.UseWebAssembly;
-						_useMobile = targetPlatformWizardPicker.UseMobile;
+						_useiOS = targetPlatformWizardPicker.UseiOS;
+						_useAndroid = targetPlatformWizardPicker.UseAndroid;
+						_useCatalyst = targetPlatformWizardPicker.UseCatalyst;
+						_useAppKit = targetPlatformWizardPicker.UseAppKit;
 						_useGtk = targetPlatformWizardPicker.UseGtk;
 						_useFramebuffer = targetPlatformWizardPicker.UseFramebuffer;
 						_useWpf = targetPlatformWizardPicker.UseWpf;
 						_useWinUI = targetPlatformWizardPicker.UseWinUI;
 
 						replacementsDictionary["$UseWebAssembly$"] = _useWebAssembly.ToString();
-						replacementsDictionary["$UseMobile$"] = _useMobile.ToString();
+						replacementsDictionary["$UseIOS$"] = _useiOS.ToString();
+						replacementsDictionary["$UseAndroid$"] = _useAndroid.ToString();
+						replacementsDictionary["$UseCatalyst$"] = _useCatalyst.ToString();
+						replacementsDictionary["$UseAppKit$"] = _useAppKit.ToString();
 						replacementsDictionary["$UseGtk$"] = _useGtk.ToString();
 						replacementsDictionary["$UseFrameBuffer$"] = _useFramebuffer.ToString();
 						replacementsDictionary["$UseWPF$"] = _useWpf.ToString();
 						replacementsDictionary["$UseWinUI$"] = _useWinUI.ToString();
+
+						_replacementDictionary = replacementsDictionary.ToDictionary(p => p.Key, p => p.Value);
 						break;
 
 					case DialogResult.Abort:
